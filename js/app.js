@@ -1,6 +1,3 @@
-/*
- * Create a list that holds all of your cards
- */
 
 
 /*
@@ -10,7 +7,64 @@
  *   - add each card's HTML to the page
  */
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+var timer;
+var stars;
+let allCards;
+let cardsFlop;
+let cardClasses=["fa fa-diamond","fa fa-paper-plane-o","card match","fa fa-anchor","fa fa-bolt","fa fa-cube","fa fa-anchor","fa fa-leaf","fa fa-bicycle","fa fa-diamond","fa fa-bomb","fa fa-leaf","fa fa-bomb","fa fa-bolt","fa fa-bicycle","fa fa-paper-plane-o","fa fa-cube"];
+
+function addCard(card){
+    cardsFlop.push(card);
+}
+
+function displayCard(card){
+    card.classList.add('open','show');
+}
+function matchard(card){
+    card.classList.add('match');
+}
+
+
+function hideCard(card){
+    //card.classList.add('open','show');
+}
+
+function removeDisplay(){
+    allCards.forEach( 
+        function(card){
+            console.log(card.classList);
+            if (card.classList.length>=2){
+                card.classList.forEach(function (element) {
+                    
+                    switch (element) {
+                        case 'open':
+                            card.classList.remove('open');
+                            break;
+                        case 'show':
+                            card.classList.remove('show');
+                            break;
+                        case 'match':
+                            card.classList.remove('match');
+                            break;
+                        default:
+                            break;
+                    }
+                  });
+            }
+        }
+);
+}
+
+function init(){
+    allCards = document.querySelectorAll('.card');
+    cardsFlop = [];
+    timer=0;
+    stars=0;
+    removeDisplay();
+    shuffle(cardClasses);
+}
+init();
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -26,6 +80,25 @@ function shuffle(array) {
 }
 
 
+allCards.forEach(function(cards){
+    cards.addEventListener('click', function (param) {
+        if(cardsFlop.length<1){
+            addCard(cards);
+            displayCard(cards);
+        }else if(cardsFlop.length==1){
+            displayCard(cards);
+            if(cardsFlop[0].lastElementChild.className==cards.lastElementChild.className){
+                matchard(cards);
+                matchard(cardsFlop[0]);
+            }else{
+
+            }
+            cardsFlop= [];
+    }
+    })
+});
+
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -36,3 +109,6 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
+
