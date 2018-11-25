@@ -32,24 +32,9 @@ function hideCard(card){
 function removeDisplay(){
     allCards.forEach( 
         function(card){
-            console.log(card.classList);
             if (card.classList.length>=2){
-                card.classList.forEach(function (element) {
-                    
-                    switch (element) {
-                        case 'open':
-                            card.classList.remove('open');
-                            break;
-                        case 'show':
-                            card.classList.remove('show');
-                            break;
-                        case 'match':
-                            card.classList.remove('match');
-                            break;
-                        default:
-                            break;
-                    }
-                  });
+                card.className='';
+                card.classList.add('card');
             }
         }
 );
