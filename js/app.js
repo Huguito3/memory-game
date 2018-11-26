@@ -1,5 +1,5 @@
 
-
+//Variables definition
 let timer;
 let stars;
 let allCards;
@@ -10,6 +10,8 @@ let erradas;
 let acertadas;
 let startingTime;
 let endingTime;
+let controlClick= false;
+
 
 
 let input = {
@@ -18,14 +20,9 @@ let input = {
 };
 
 let timestamp = new Date(input.minutes, input.seconds);
-
 let interval = 1;
 
-setInterval(function () {
-    timestamp = new Date(timestamp.getTime() + interval * 1000);
-    document.getElementById('timerS').innerHTML = timestamp.getMinutes() + 'm:' + timestamp.getSeconds() + 's';
-}, Math.abs(interval) * 1000);
-
+let myInterval;
 
 let moves;
 const lblMoves=document.querySelector('.moves');
@@ -60,8 +57,19 @@ function removeDisplay(){
         }
 );
 }
-
+//Initil Function
+function reset(){
+    clearInterval(myInterval);
+    document.getElementById('timerS').innerHTML = '';
+    timestamp = new Date(input.minutes, input.seconds);
+    init();
+}
 function init(){
+    myInterval = setInterval(function () {
+        timestamp = new Date(timestamp.getTime() + interval * 1000);
+        document.getElementById('timerS').innerHTML = timestamp.getMinutes() + 'm:' + timestamp.getSeconds() + 's';
+    }, Math.abs(interval) * 1000);
+
     while (starts.firstChild) {
         starts.removeChild(starts.firstChild);
     }
@@ -84,7 +92,7 @@ function init(){
     console.log("Tempo Total de carregamento: " +(endingTime - startingTime));
 }
 init();
-
+// Function Shuffle
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -98,7 +106,7 @@ function shuffle(array) {
 
     return array;
 }
-
+// Function to create Cards
 function createCards(){
     
     let indice=0;
@@ -109,7 +117,7 @@ function createCards(){
         indice+=1;
     });
 }
-
+// Function to reset Cards
 function resetCards(){
     
     allCards.forEach(function (cardli) {
@@ -119,7 +127,7 @@ function resetCards(){
         
     });
 }
-
+// Function to create starts
 function createStars(){
     let indice=0;
     
@@ -133,19 +141,20 @@ function createStars(){
     }
 }
 
+// Function to remove starts
 function removeStars() {
     if(starts.hasChildNodes()){
         starts.removeChild(starts.lastElementChild);
 }
 }
-
+//Function that is launch when the game is won.
 function winGame() {
     alert("You Win!!! You made "+moves+" moves. Your time was "+  document.getElementById('timerS').innerHTML);
 }
-
+//Setting the event listeners.
 allCards.forEach(function(cards){
     cards.addEventListener('click', function (param) {
-        
+        if(!controlClick && !cards.classList.contains('open')){
         if(cardsFlop.length<1){
             addCard(cards);
             displayCard(cards);
@@ -158,11 +167,13 @@ allCards.forEach(function(cards){
                 cardsFlop= [];
                 acertadas+=1;
             }else{
+                controlClick= true;
                 erradas+=1;
                 setTimeout(() => {
                     hideCard(cards);
                     hideCard(cardsFlop[0]);
                     cardsFlop= [];
+                    controlClick= false;
                 }, timeout);
                 
             }
@@ -178,6 +189,8 @@ allCards.forEach(function(cards){
             winGame()
         }, timeout/2);
     }
+}
+    
     })
 });
 
