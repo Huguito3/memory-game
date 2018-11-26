@@ -1,7 +1,7 @@
 
 
-var timer;
-var stars;
+let timer;
+let stars;
 let allCards;
 let cardsFlop;
 let cardClasses=["fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-anchor","fa-leaf","fa-bicycle","fa-diamond","fa-bomb","fa-leaf","fa-bomb","fa-bolt","fa-bicycle","fa-paper-plane-o","fa-cube"];
@@ -64,6 +64,8 @@ function init(){
     acertadas=0;
     lblMoves.innerHTML=moves;
     createStars();
+    endingTime = performance.now();
+    console.log("Tempo Total de carregamento: " +(endingTime - startingTime));
 }
 init();
 
@@ -129,11 +131,12 @@ function winGame() {
 
 allCards.forEach(function(cards){
     cards.addEventListener('click', function (param) {
-        moves+=1;
+        
         if(cardsFlop.length<1){
             addCard(cards);
             displayCard(cards);
         }else if(cardsFlop.length==1){
+            moves+=1;
             displayCard(cards);
             if(cardsFlop[0].lastElementChild.className==cards.lastElementChild.className){
                 matchard(cards);
