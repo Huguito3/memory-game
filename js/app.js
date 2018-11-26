@@ -11,6 +11,22 @@ let acertadas;
 let startingTime;
 let endingTime;
 
+
+let input = {
+   minutes: 0,
+    seconds: 0
+};
+
+let timestamp = new Date(input.minutes, input.seconds);
+
+let interval = 1;
+
+setInterval(function () {
+    timestamp = new Date(timestamp.getTime() + interval * 1000);
+    document.getElementById('timerS').innerHTML = timestamp.getMinutes() + 'm:' + timestamp.getSeconds() + 's';
+}, Math.abs(interval) * 1000);
+
+
 let moves;
 const lblMoves=document.querySelector('.moves');
 const starts=document.querySelector('.stars');
@@ -124,9 +140,7 @@ function removeStars() {
 }
 
 function winGame() {
-    endingTime = performance.now();
-    let mostrarTempo=(endingTime - startingTime) / 100;
-    alert("Ganhou!!! Voce fez "+moves+" movimentos. E demorou "+ mostrarTempo + "segundos");
+    alert("You Win!!! You made "+moves+" moves. Your time was "+  document.getElementById('timerS').innerHTML);
 }
 
 allCards.forEach(function(cards){
