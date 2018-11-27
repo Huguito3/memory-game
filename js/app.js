@@ -12,7 +12,9 @@ let startingTime;
 let endingTime;
 let controlClick= false;
 
-
+//Modal Elements
+let modal = document.getElementById('myModal');
+let span = document.getElementsByClassName("close")[0];
 
 let input = {
    minutes: 0,
@@ -73,7 +75,7 @@ function init(){
     while (starts.firstChild) {
         starts.removeChild(starts.firstChild);
     }
-  
+    modal.style.display = "none";
     startingTime = performance.now();
     allCards = document.querySelectorAll('.card');
     cardsFlop = [];
@@ -149,7 +151,8 @@ function removeStars() {
 }
 //Function that is launch when the game is won.
 function winGame() {
-    alert("You Win!!! You made "+moves+" moves. Your time was "+  document.getElementById('timerS').innerHTML);
+    modal.style.display = "block";
+    document.getElementById('winnerText').innerHTML="You Win!!! You made "+moves+" moves. Your time was "+  document.getElementById('timerS').innerHTML;
 }
 //Setting the event listeners.
 allCards.forEach(function(cards){
@@ -193,4 +196,17 @@ allCards.forEach(function(cards){
     
     })
 });
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
 
